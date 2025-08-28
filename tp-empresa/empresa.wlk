@@ -33,9 +33,8 @@ class Empresa {
     }
 
     method liquidarSueldo(empleado){
-        const recibo = new ReciboDeSueldo(empleado = empleado)
         empleado.registrarConceptos()
-        recibo.liquidar()
+        const recibo = new ReciboDeSueldo(empleado = empleado)
         empleado.prepararNuevoMes()
         recibos.add(recibo)
     }

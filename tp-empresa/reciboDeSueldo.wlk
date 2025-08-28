@@ -5,11 +5,11 @@
 
 class ReciboDeSueldo {
     
-    var empleado
+    const empleado
 
-    var fechaDeEmision = new Date()
+    const property fechaDeEmision = new Date()
 
-    var desgloceDeConceptos = []
+    const desgloceDeConceptos = empleado.conceptosDeSueldo()
 
     method nombreEmpleado(){
         return empleado.nombre()
@@ -29,10 +29,6 @@ class ReciboDeSueldo {
 
     method desgloceDeConceptos(){
         return desgloceDeConceptos
-    }
-
-    method liquidar(){
-        desgloceDeConceptos = empleado.conceptosDeSueldo()
     }
 
 }
