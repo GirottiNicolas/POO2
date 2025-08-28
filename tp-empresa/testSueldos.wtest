@@ -1,0 +1,54 @@
+import practicas.tp-empresa.empleadoTemporal.*
+import practicas.tp-empresa.empleadoPermanente.*
+import practicas.tp-empresa.empleado.Empleado
+import practicas.tp-empresa.empresa.Empresa
+
+
+describe "Test de sueldos" {
+    const juan = new EmpleadoPermanente(
+                         nombre="juan"
+                        ,direccion = "Bera"
+                        ,fechaNac = new Date(day = 12, month = 5, year = 1956)
+                        ,estadoCivil = "soltero"
+                        ,sueldoBasico = 10000
+                        ,cantDeHijos = 5
+                        ,tieneConyugue = false
+                        ,antiguedad = 10
+                    )
+    const david = new EmpleadoTemporal(
+                         nombre="david"
+                        ,direccion = "Quilmes"
+                        ,fechaNac = new Date(day = 12, month = 5, year = 1998)
+                        ,estadoCivil = "casado"
+                        ,sueldoBasico = 180000
+                        ,fechaFinDeAsignacion = new Date()
+                        ,cantHorasExtras = 100
+                    )
+    const sol = new EmpleadoPermanente(
+                         nombre="sol"
+                        ,direccion = "Ezpeleta"
+                        ,fechaNac = new Date(day = 12, month = 5, year = 2000)
+                        ,estadoCivil = "soltero"
+                        ,sueldoBasico = 30000
+                        ,cantDeHijos = 1
+                        ,tieneConyugue = true
+                        ,antiguedad = 3
+                    )
+
+    var miEmpresa = new Empresa(nombre = "CAOS",cuit = "1111222",empleados = #{juan,sol,david})
+
+    test "sueldos de empleados"{
+        
+        // Sueldo de empleada
+        assert.equals(30400,sol.sueldoBruto())
+        assert.equals(400,sol.salarioFamiliar())
+        assert.equals(18220, sol.sueldoNeto())
+
+        // Sueldos brutos a pagar por la empresa
+        assert.equals(225650, miEmpresa.sueldosBrutos())
+
+        // Sueldos netos a pagar por la empresa
+        assert.equals(171570, miEmpresa.sueldosNetos())
+        
+    }               
+}

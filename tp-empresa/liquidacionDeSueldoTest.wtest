@@ -1,0 +1,51 @@
+import practicas.tp-empresa.empleadoTemporal.*
+import practicas.tp-empresa.empleadoPermanente.*
+import practicas.tp-empresa.empleado.Empleado
+import practicas.tp-empresa.empresa.Empresa
+
+
+describe "Liquidacion de sueldos" {
+    const juan = new EmpleadoPermanente(
+                         nombre="juan"
+                        ,direccion = ""
+                        ,fechaNac = new Date(day = 12, month = 5, year = 1956)
+                        ,estadoCivil = "soltero"
+                        ,sueldoBasico = 10000
+                        ,cantDeHijos = 5
+                        ,tieneConyugue = false
+                        ,antiguedad = 10
+                    )
+    const david = new EmpleadoTemporal(
+                         nombre="david"
+                        ,direccion = ""
+                        ,fechaNac = new Date(day = 12, month = 5, year = 1998)
+                        ,estadoCivil = "casado"
+                        ,sueldoBasico = 180000
+                        ,fechaFinDeAsignacion = new Date()
+                        ,cantHorasExtras = 100
+                    )
+    const sol = new EmpleadoPermanente(
+                         nombre="sol"
+                        ,direccion = ""
+                        ,fechaNac = new Date(day = 12, month = 5, year = 2000)
+                        ,estadoCivil = "soltero"
+                        ,sueldoBasico = 30000
+                        ,cantDeHijos = 1
+                        ,tieneConyugue = true
+                        ,antiguedad = 3
+                    )
+
+    var miEmpresa = new Empresa(nombre = "CAOS",cuit = "1111222",empleados = #{juan,sol,david})
+
+    test "liquidacion de sueldos"{
+        assert.doesNotThrowException({ miEmpresa.liquidacionDeSueldos() })
+        assert.that(not miEmpresa.recibos().isEmpty())    
+        var reciboDeSol = miEmpresa.recibos().find({ recibo => recibo.nombreEmpleado() == sol.nombre()})
+
+        assert.equals("sol", reciboDeSol.nombreEmpleado())
+        assert.equals(30400, reciboDeSol.sueldoBruto())
+        assert.equals(3, miEmpresa.recibos().size())
+
+
+    }               
+}
