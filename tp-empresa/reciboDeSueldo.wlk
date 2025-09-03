@@ -5,8 +5,10 @@ import practicas.tp-empresa.concepto.ConceptoDeSueldo
 
 class ReciboDeSueldo {
 
-    // Este diseño, traeria informacion actual y no la del momento determinado en la cual se emite el recibo del empleado
     const nombreEmpleado
+    const direccion
+    const sueldoBruto 
+    const sueldoNeto 
 
     const property fechaDeEmision = new Date()
 
@@ -20,11 +22,30 @@ class ReciboDeSueldo {
         return nombreEmpleado
     }
 
+    method getSueldoBruto(){
+        return sueldoBruto
+    }
+
+    method getSueldoNeto(){
+        return sueldoNeto
+    }
+
+    method getDireccion() {
+        return direccion
+    }
+
+    
     method liquidar(empleado){
         conceptos.map({
                     concepto => new ConceptoDeSueldo(nombreItem = concepto.getNombreItem(),
                                                      valor=concepto.getValor())
         })
+    }
+
+    method desgloceDeConceptos(){
+        return conceptos.map({
+                    concepto => concepto.getNombreItem() + " -> $ " + concepto.getValor()
+        })  
     }
 }
 

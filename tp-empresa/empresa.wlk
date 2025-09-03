@@ -34,7 +34,11 @@ class Empresa {
 
     method prepararRecibo(empleado){
         empleado.registrarConceptos()
-        var recibo = new ReciboDeSueldo( nombreEmpleado = empleado.nombre(), conceptos = empleado.conceptosDeSueldo())
+        var recibo = new ReciboDeSueldo( nombreEmpleado = empleado.nombre()
+                                        ,conceptos = empleado.conceptosDeSueldo()
+                                        ,direccion = empleado.direccion()
+                                        ,sueldoBruto = empleado.sueldoBruto()
+                                        ,sueldoNeto=empleado.sueldoNeto())
         recibo.liquidar(empleado)
         recibos.add(recibo)
     }
