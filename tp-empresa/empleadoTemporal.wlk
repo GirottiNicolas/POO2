@@ -1,5 +1,5 @@
 import practicas.tp-empresa.empleado.Empleado
-
+import practicas.tp-empresa.concepto.ConceptoDeSueldo
 
 
 class EmpleadoTemporal inherits Empleado {
@@ -33,9 +33,9 @@ class EmpleadoTemporal inherits Empleado {
     }
 
 
-    override method conceptosAdicionales(){
-        conceptosDeSueldo.add(["pasando los 50 -> " + self.retencionPorCincuenton()])
-        conceptosDeSueldo.add(["descuento sobre extras (-) -> " + self.descuentoSobreExtras()])
+    override method registrarConceptosAdicionales(){
+        conceptosDeSueldo.add(new ConceptoDeSueldo(nombreItem="Pasando los 50", valor= self.retencionPorCincuenton()))
+        conceptosDeSueldo.add(new ConceptoDeSueldo(nombreItem="Descuento sobre extras", valor=self.descuentoSobreExtras()))
    }
 
 

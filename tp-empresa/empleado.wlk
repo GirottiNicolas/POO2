@@ -1,5 +1,5 @@
 import practicas.tp-empresa.empresa.Empresa
-
+import practicas.tp-empresa.concepto.ConceptoDeSueldo
 
 
 
@@ -34,31 +34,36 @@ class Empleado {
         return (self.sueldoBruto() * porcentaje) / 100
     }
 
+
+
     method registrarConceptos(){
-        conceptosDeSueldo.add(["sueldo bruto ->" + self.sueldoBruto()])
-        conceptosDeSueldo.add(["sueldo neto ->"+ self.sueldoNeto()])
-        conceptosDeSueldo.add(["obra social (-) ->" + self.obraSocial()])
-        conceptosDeSueldo.add(["aportes jubilatorios (-) -> " + self.aportesJubilatorios()])
+        self.prepararNuevoMes()
+        self.registrarConceptosBasicos()
+        self.registrarConceptosAdicionales()
+        
     }
 
 
     method prepararNuevoMes(){
         conceptosDeSueldo.clear()
     }
+   
 
+    method registrarConceptosBasicos(){
+        conceptosDeSueldo.add(new ConceptoDeSueldo(nombreItem = "Sueldo Bruto", valor = self.sueldoBruto()))
+        conceptosDeSueldo.add(new ConceptoDeSueldo(nombreItem = "Sueldo Neto", valor = self.sueldoNeto()))
+        conceptosDeSueldo.add(new ConceptoDeSueldo(nombreItem = "Obra social", valor = self.obraSocial()))
+        conceptosDeSueldo.add(new ConceptoDeSueldo(nombreItem = "Retenciones", valor = self.retenciones()))
 
-    method conceptosDeSueldo(){
-        return conceptosDeSueldo.map({
-                            concepto => concepto.first()
-        })
     }
 
-    method conceptosAdicionales()
+
+    method registrarConceptosAdicionales()
 
     method aportesJubilatorios()
 
     method sueldoBruto()
 
-
+  
 
 }

@@ -1,4 +1,5 @@
 import practicas.tp-empresa.empleado.Empleado
+import practicas.tp-empresa.concepto.ConceptoDeSueldo
 
 
 class EmpleadoPermanente inherits Empleado {
@@ -43,12 +44,13 @@ class EmpleadoPermanente inherits Empleado {
         return self.porcentajeDeSueldo(15)
     }
 
-   override method conceptosAdicionales(){
-        conceptosDeSueldo.add(["asignacion por conyugue (+) -> " + self.asignacionPorConyugue() ] )
-        conceptosDeSueldo.add(["salario familiar (+) -> " + self.salarioFamiliar()])
-        conceptosDeSueldo.add(["asignacion por hijos (+) -> " + self.asignacionPorHijos()])
-        conceptosDeSueldo.add(["retencion por hijos (-) -> " + self.retencionPorHijos()])
-        conceptosDeSueldo.add(["antiguedad (+) -> " + self.itemAntiguedad()])
+
+   override method registrarConceptosAdicionales(){
+        conceptosDeSueldo.add(new ConceptoDeSueldo(nombreItem = "Asignacion por conyugue", valor=self.asignacionPorConyugue()) )
+        conceptosDeSueldo.add(new ConceptoDeSueldo(nombreItem = "Salario Familiar", valor = self.salarioFamiliar()))
+        conceptosDeSueldo.add(new ConceptoDeSueldo(nombreItem = "Asignacion por hijos", valor = self.asignacionPorHijos()))
+        conceptosDeSueldo.add(new ConceptoDeSueldo(nombreItem = "Retencion por hijos", valor = self.retencionPorHijos()))
+        conceptosDeSueldo.add(new ConceptoDeSueldo(nombreItem = "Antiguedad", valor = self.itemAntiguedad()))
    }
 
 }

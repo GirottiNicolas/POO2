@@ -28,17 +28,16 @@ class Empresa {
 
     method liquidacionDeSueldos(){
         empleados.forEach({
-                    empleado => self.liquidarSueldo(empleado)
+                    empleado => self.prepararRecibo(empleado)
         })
     }
 
-    method liquidarSueldo(empleado){
+    method prepararRecibo(empleado){
         empleado.registrarConceptos()
-        const recibo = new ReciboDeSueldo(empleado = empleado)
-        empleado.prepararNuevoMes()
+        var recibo = new ReciboDeSueldo( nombreEmpleado = empleado.nombre(), conceptosARegistrar = empleado.conceptosDeSueldo())
+        recibo.liquidar()
         recibos.add(recibo)
     }
-
     
 
 }

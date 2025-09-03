@@ -1,4 +1,5 @@
 import practicas.tp-empresa.empleado.Empleado
+import practicas.tp-empresa.concepto.ConceptoDeSueldo
 
 
 class Contratado inherits Empleado {
@@ -13,12 +14,13 @@ class Contratado inherits Empleado {
         return 50
     }
 
-    override method registrarConceptos(){
-        conceptosDeSueldo.add(["sueldo bruto ->" + self.sueldoBruto()])
-        conceptosDeSueldo.add(["sueldo neto ->"+ self.sueldoNeto()])
+    override method registrarConceptosBasicos(){
+        conceptosDeSueldo.add(new ConceptoDeSueldo(nombreItem = "Sueldo Bruto", valor = self.sueldoBruto()))
+        conceptosDeSueldo.add(new ConceptoDeSueldo(nombreItem = "Sueldo Neto", valor = self.sueldoNeto()))
     }
 
-    override method conceptosAdicionales(){
-        conceptosDeSueldo.add(["Gastos administrativos contractuales -> "+ self.retenciones()])
+    override method registrarConceptosAdicionales(){
+        conceptosDeSueldo.add(new ConceptoDeSueldo(nombreItem = "Gastos administrativos contractuales", valor = self.retenciones()))
+
     }
 }
