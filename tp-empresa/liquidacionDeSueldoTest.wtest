@@ -2,6 +2,7 @@ import practicas.tp-empresa.empleadoTemporal.*
 import practicas.tp-empresa.empleadoPermanente.*
 import practicas.tp-empresa.empleado.Empleado
 import practicas.tp-empresa.empresa.Empresa
+import practicas.tp-empresa.empleadoContratado.Contratado
 
 
 describe "Liquidacion de sueldos" {
@@ -34,12 +35,116 @@ describe "Liquidacion de sueldos" {
                         ,tieneConyugue = true
                         ,antiguedad = 3
                     )
+    const mati = new Contratado(
+                         nombre="mati"
+                        ,direccion = ""
+                        ,fechaNac = new Date(day = 12, month = 5, year = 2000)
+                        ,estadoCivil = "soltero"
+                        ,sueldoBasico = 30000
+                        ,numeroContrato = 1233312
+                        ,medioDePago = "Efectivo"
+                    )
 
-    var miEmpresa = new Empresa(nombre = "CAOS",cuit = "1111222",empleados = #{juan,sol,david})
-
-    test "liquidacion de sueldos"{
-        assert.that(true)
+    var miEmpresa = new Empresa(nombre = "CAOS",cuit = "1111222",empleados = #{juan,sol,david,mati})
 
 
-    }               
+    method reciboDe(empleado){
+        return miEmpresa.recibos().find({
+                                        recibo => recibo.getNombreEmpleado() == empleado.nombre()
+        })
+    }
+
+    method buscarConcepto(conceptos,conceptoABuscar){
+        return conceptos.find({ 
+                            concepto => conceptoABuscar == concepto.getNombreItem()
+        })
+    }
+
+    method conceptosPorItems(recibo){
+        return recibo.getConceptos().map({
+                                concepto => concepto.getNombreItem()
+        }).asSet()
+    }
+
+    method sonValidosLosConceptosDelRecibo(recibo,empleado){
+        return recibo.getConceptos().any({
+                                concepto => self.buscarConcepto(empleado.conceptosDeSueldo(), concepto.getNombreItem()).isAValid(concepto.getValor())
+        })  
+    }
+
+ 
+
+
+
+    test "La liquidacion funciona sin errores"{
+        assert.doesNotThrowException({ miEmpresa.liquidacionDeSueldos() })
+    } 
+
+    test "Cantidad de empleados y recibos"{
+        miEmpresa.liquidacionDeSueldos()
+        assert.equals(miEmpresa.recibos().size(), miEmpresa.empleados().size())
+    } 
+
+    
+
+
+    test "Recibo de sueldo de Empleado Permanente"{
+        miEmpresa.liquidacionDeSueldos()
+        const reciboDeSol = self.reciboDe(sol)
+        const conceptosDelRecibo = reciboDeSol.getConceptos()
+        const conceptosDeEmpleada = sol.conceptosDeSueldo()
+        
+        // Cantidad de conceptos
+        assert.equals(reciboDeSol.getConceptos(), sol.conceptosDeSueldo())
+
+        // Conceptos del recibo coinciden con los del empleado
+        assert.equals(#{"Asignacion por conyugue", "Salario Familiar","Asignacion por hijos","Retencion por hijos","Antiguedad","Sueldo Bruto", "Sueldo Neto","Obra social","Retenciones"}, self.conceptosPorItems(reciboDeSol))
+        
+        // Los valores de los conceptos del recibo coinciden con los del empleado
+        assert.that(self.sonValidosLosConceptosDelRecibo(reciboDeSol,sol))
+    }       
+
+
+    test "Recibo de sueldo de Empleado Temporal"{
+        miEmpresa.liquidacionDeSueldos()
+        const reciboDeEmpleadoTemporal = self.reciboDe(david)
+        const conceptosDelRecibo = reciboDeEmpleadoTemporal.getConceptos()
+        const conceptosDeEmpleada = david.conceptosDeSueldo()
+        
+        // Cantidad de conceptos
+        assert.equals(reciboDeEmpleadoTemporal.getConceptos(), david.conceptosDeSueldo())
+
+        // Conceptos del recibo coinciden con los del empleado
+        assert.equals(#{"Pasando los 50","Descuento sobre extras","Sueldo Bruto", "Sueldo Neto","Obra social","Retenciones"}, self.conceptosPorItems(reciboDeEmpleadoTemporal))
+        
+        // Los valores de los conceptos del recibo coinciden con los del empleado
+        assert.that(self.sonValidosLosConceptosDelRecibo(reciboDeEmpleadoTemporal,david))
+    }         
+
+    test "Recibo de sueldo de Contratado"{
+        miEmpresa.liquidacionDeSueldos()
+        const reciboDeContratado = self.reciboDe(mati)
+        const conceptosDelRecibo = reciboDeContratado.getConceptos()
+        const conceptosDeEmpleada = mati.conceptosDeSueldo()
+        
+        // Cantidad de conceptos
+        assert.equals(reciboDeContratado.getConceptos(), mati.conceptosDeSueldo())
+
+        // Conceptos del recibo coinciden con los del empleado
+        assert.equals(#{"Sueldo Bruto","Sueldo Neto","Gastos administrativos contractuales"}, self.conceptosPorItems(reciboDeContratado))
+        
+        // Los valores de los conceptos del recibo coinciden con los del empleado
+        assert.that(self.sonValidosLosConceptosDelRecibo(reciboDeContratado,mati))
+    }
+
+
+    test "Segundo mes de liquidacion de sueldos, la empresa tiene el doble de recibos"{
+        miEmpresa.liquidacionDeSueldos()
+        const cantidadDeRecibosPrimerMes = miEmpresa.recibos().size() 
+        miEmpresa.liquidacionDeSueldos()
+
+        assert.equals(cantidadDeRecibosPrimerMes * 2, miEmpresa.recibos().size())
+
+    }
+
 }

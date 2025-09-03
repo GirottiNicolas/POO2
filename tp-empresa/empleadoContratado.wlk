@@ -23,4 +23,10 @@ class Contratado inherits Empleado {
         conceptosDeSueldo.add(new ConceptoDeSueldo(nombreItem = "Gastos administrativos contractuales", valor = self.retenciones()))
 
     }
+
+    override method aportesJubilatorios(){
+        return 0
+    }
+
+   
 }

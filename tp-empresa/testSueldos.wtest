@@ -37,18 +37,46 @@ describe "Test de sueldos" {
 
     var miEmpresa = new Empresa(nombre = "CAOS",cuit = "1111222",empleados = #{juan,sol,david})
 
-    test "sueldos de empleados"{
-        
+
+
+    test "Sueldo de empleada permanente" {
         // Sueldo de empleada
         assert.equals(30400,sol.sueldoBruto())
         assert.equals(400,sol.salarioFamiliar())
         assert.equals(18220, sol.sueldoNeto())
+    }
 
-        // Sueldos brutos a pagar por la empresa
+    test "Sueldos netos de empleados"{
+        assert.equals(18220, sol.sueldoNeto())
+        assert.equals(146700, david.sueldoNeto())
+        assert.equals(6650, juan.sueldoNeto())
+        assert.equals(171570, miEmpresa.sueldosNetos())
+
+    }   
+
+    test "Sueldos brutos de empleados"{
+        assert.equals(30400, sol.sueldoBruto())
+        assert.equals(184000, david.sueldoBruto())
+        assert.equals(11250, juan.sueldoBruto())
         assert.equals(225650, miEmpresa.sueldosBrutos())
 
-        // Sueldos netos a pagar por la empresa
+    } 
+
+    test "Retenciones de empleados"{
+        assert.equals(12180, sol.retenciones())
+        assert.equals(37300, david.retenciones())
+        assert.equals(4600, juan.retenciones())
+        assert.equals(54080, miEmpresa.retencionesEmpleados())
+
+    } 
+
+    test "Sueldos Netos de empleados"{
+        assert.equals(225650, miEmpresa.sueldosBrutos())
+        assert.equals(54080, miEmpresa.retencionesEmpleados())
         assert.equals(171570, miEmpresa.sueldosNetos())
+
+        // Sueldos netos a pagar por la empresa
+        assert.equals(miEmpresa.sueldosNetos(), miEmpresa.sueldosBrutos() - miEmpresa.retencionesEmpleados())
         
     }               
 }

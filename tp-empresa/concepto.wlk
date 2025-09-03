@@ -7,7 +7,7 @@ class ConceptoDeSueldo {
 
     const valor
 
-    method nombreItem(){
+    method getNombreItem(){
         return nombreItem
     }
 
@@ -15,6 +15,9 @@ class ConceptoDeSueldo {
         return valor
     }
 
-    
+    method isAValid(value){
+        return self.getValor() == value
+    }
+        
 
 }

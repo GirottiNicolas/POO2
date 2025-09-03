@@ -9,7 +9,7 @@ class Empleado {
     const fechaNac 
     var estadoCivil
     var sueldoBasico
-    const conceptosDeSueldo = #{}
+    const property conceptosDeSueldo = #{}
 
 
     method edad(){

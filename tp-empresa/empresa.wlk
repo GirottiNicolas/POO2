@@ -5,7 +5,7 @@ import practicas.tp-empresa.reciboDeSueldo.*
 class Empresa {
     var nombre
     var cuit
-    const empleados
+    const property empleados
     const property recibos = #{}
 
 
@@ -35,7 +35,7 @@ class Empresa {
     method prepararRecibo(empleado){
         empleado.registrarConceptos()
         var recibo = new ReciboDeSueldo( nombreEmpleado = empleado.nombre(), conceptos = empleado.conceptosDeSueldo())
-        recibo.liquidar()
+        recibo.liquidar(empleado)
         recibos.add(recibo)
     }
     
