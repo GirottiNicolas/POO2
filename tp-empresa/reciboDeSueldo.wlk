@@ -10,12 +10,12 @@ class ReciboDeSueldo {
 
     const property fechaDeEmision = new Date()
 
-    const conceptosARegistrar
+    const conceptos
   
 
 
     method liquidar(empleado){
-        conceptosARegistrar.map({
+        conceptos.map({
                     concepto => new ConceptoDeSueldo(nombreItem = concepto.nombreItem(),
                                                      valor=concepto.valor())
         })

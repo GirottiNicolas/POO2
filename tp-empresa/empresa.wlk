@@ -34,7 +34,7 @@ class Empresa {
 
     method prepararRecibo(empleado){
         empleado.registrarConceptos()
-        var recibo = new ReciboDeSueldo( nombreEmpleado = empleado.nombre(), conceptosARegistrar = empleado.conceptosDeSueldo())
+        var recibo = new ReciboDeSueldo( nombreEmpleado = empleado.nombre(), conceptos = empleado.conceptosDeSueldo())
         recibo.liquidar()
         recibos.add(recibo)
     }
