@@ -42,7 +42,7 @@ class ReciboDeSueldo {
         })
     }
 
-    method desgloceDeConceptos(){
+    method getDesgloceDeConceptos(){
         return conceptos.map({
                     concepto => concepto.getNombreItem() + " -> $ " + concepto.getValor()
         })  
